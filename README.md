@@ -6,7 +6,7 @@ Features so far: <br>
     > Working GDT <br>
     > Working IDT <br>
     > Working PIT and IRQ <br>
-    > Simple Timer
+    > Simple Timer <br>
 Next to do: <br>
     > Keyboard Interrupts <br>
 
@@ -16,7 +16,7 @@ Requirements: <br>
     > clang <br>
     > nasm <br>
     > qemu <br>
-    > xoriso <br>
+    > xorriso <br>
     > grub <br>
 actually running it: <br>
     just type in `make run` or just `make` <br>
