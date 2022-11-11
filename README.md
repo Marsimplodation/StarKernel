@@ -5,9 +5,9 @@ Features so far: <br>
     > Working VGA-Driver <br>
     > Working GDT <br>
     > Working IDT <br>
+    > Working PIT and IRQ <br>
+    > Simple Timer
 Next to do: <br>
-    > how ISR Stubs work in 64bit land, haven't found out yet, which registers get used <br>
-    > PIT and IRQs, for timers and so on <br>
     > Keyboard Interrupts <br>
 
 ### HOW TO RUN <br>

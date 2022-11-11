@@ -16,16 +16,19 @@ defaultExceptionHandler:
 [GLOBAL isr%1]
 isr%1:
     cli
-    push byte 0
-    push byte %1
-    jmp isr_common_stub
+    mov rdi, %1
+    call isr_handler
+    sti
+    IRETQ
 %endmacro
 %macro ISR_ERRCODE 1
 [GLOBAL isr%1]
 isr%1:
     cli
-    push byte %1
-    jmp isr_common_stub
+    mov rdi,  %1
+    call isr_handler
+    sti
+    IRETQ
 %endmacro
 ISR_NOERRCODE 0
 ISR_NOERRCODE 1
@@ -94,38 +97,4 @@ exceptionHandlers:
     dq isr29
     dq isr30
     dq isr31
-
-isr_common_stub:
-    ;pusha
-
-    push rdx
-    push rcx
-    push rbx
-    push rax
-    push rdi
-    push rsi
-    push rbp
-
-    mov rax, cr4
-    mov rax, cr3
-    mov rax, cr2
-    mov rax, cr0
-
-    call isr_handler
-    ;pop eax
-    pop rax; cr4
-    pop rax; cr3
-    pop rax; cr2
-    pop rax; cr0
-    ;popa
-    pop rbp
-    pop rsi
-    pop rdi
-    pop rax
-    pop rbx
-    pop rcx
-    pop rbx
     
-    add rsp, 16
-    sti
-    IRETQ

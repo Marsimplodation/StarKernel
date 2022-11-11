@@ -44,7 +44,8 @@ void print (char * word) {
         ch = char2short(word[i], printColor);
 
         //
-        if(VGApos +1 >= COLS * ROWS) {
+        if(VGApos >= COLS * ROWS) {
+            VGApos -= (COLS);
             loadBuffer();
         }
 
@@ -53,6 +54,7 @@ void print (char * word) {
             if(VGApos + (COLS - (VGApos % COLS)) <COLS * ROWS) {
                 VGApos += (COLS - (VGApos % COLS));
             } else {
+                VGApos -= (COLS);
                 loadBuffer();
             }
         }

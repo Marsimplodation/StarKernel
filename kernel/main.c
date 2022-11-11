@@ -1,7 +1,11 @@
 #include "dictionary/dictionary.h"
 #include "Graphics/VGADriver.h"
 #include "CPU/idt.h"
+#include "CPU/irq.h"
+#include "CPU/time.h"
 #include "utils/types.h"
+
+u32 ticks = 0;
 
 void printToDo() {
     changeColor(WHITE);
@@ -9,9 +13,11 @@ void printToDo() {
     print("  VGA-Driver "); 
     changeColor(GREEN); print("done\n"); 
     changeColor(WHITE); print("  IDT");
-    changeColor(GREEN); print(" done, need to re do the isr stub\n");
+    changeColor(GREEN); print(" done\n");
     changeColor(WHITE); print("  PIT & IRQ");
-    changeColor(YELLOW); print(" next\n");
+    changeColor(GREEN); print(" done\n");
+    changeColor(WHITE); print("  Simple timer function");
+    changeColor(GREEN); print(" done\n");
     changeColor(WHITE); print("  Keyboard input");
     changeColor(RED); print(" tbd\n\n");
 }
@@ -21,6 +27,9 @@ void loadSystemResources() {
     print("[-] loading IDT\n");
     idtInit();
     print("[+] loaded IDT\n"); 
+    print("[-] loading timer\n");
+    init_timer(100); //init timer to 100hz
+    print("[+] loaded timer at 100Hz\n");
 }
 
 void cstart() {
@@ -28,11 +37,30 @@ void cstart() {
     clearScreen();
     changeColor(RED);
     print("Welcome to the StarKernel\n");
+    changeColor(WHITE);
+    print("Time passed: ");
+    print(intToChar(ticks));
     printToDo();
     loadSystemResources();
     
-    asm volatile ("int $0x3");
+    //preparing for keyboard stuff
+    outb(0xa1, 0xff);
+    asm volatile ("sti");
+
+    //pause
+    sleep(250, MILLISECONDS);
     
-    for(;;) {}
+    //just count time up
+    for(;;) {
+        sleep(1, SECONDS);
+        clearScreen();
+        changeColor(RED);
+        print("Welcome to the StarKernel\n");
+        changeColor(WHITE);
+        ticks++;
+        print("Time passed: ");
+        print(intToChar(ticks));
+        printToDo();
+    }
 }
 

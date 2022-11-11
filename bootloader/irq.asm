@@ -1,12 +1,15 @@
-extern irqHanlder
+extern irq_handler
 
 %macro IRQ 2
 [GLOBAL IRQ%1]
 IRQ%1:
     cli
-    push byte 0
-    push byte %2
-    jmp irq_common_stub
+    push rdi
+    mov rdi, %2
+    call irq_handler
+    pop rdi
+    sti
+    IRETQ
 %endmacro
 
 IRQ 0, 32
@@ -45,37 +48,3 @@ irqHanlders:
     dq IRQ14
     dq IRQ15
 
-extern irq_handler
-irq_common_stub:
-    ;pusha
-    push rdx
-    push rcx
-    push rbx
-    push rax
-    push rdi
-    push rsi
-    push rbp
-
-    mov rax, cr4
-    mov rax, cr3
-    mov rax, cr2
-    mov rax, cr0
-
-    call irq_handler
-    ;pop eax
-    pop rax; cr4
-    pop rax; cr3
-    pop rax; cr2
-    pop rax; cr0
-    ;popa
-    pop rbp
-    pop rsi
-    pop rdi
-    pop rax
-    pop rbx
-    pop rcx
-    pop rbx
-    
-    add rsp, 16
-    sti
-    IRETQ

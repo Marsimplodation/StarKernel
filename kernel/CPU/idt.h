@@ -20,9 +20,9 @@ struct idtptr {
 typedef void (*handler) ();
 extern void defaultExceptionHandler();
 extern void defaultInterruptHandler();
-extern void (*exceptionHandlers[20]);
+extern void (*exceptionHandlers[32]);
 extern void (*irqHanlders[16]);
-
 void idtInit();
+
 
 #endif  //!__IDT__H__

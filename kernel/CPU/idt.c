@@ -8,7 +8,7 @@
 #define INTERRUPT_GATE 0x8E
 #define TRAP_GATE 0x8F
 
-void Memset(u8 *b, int c, int len) {
+void memset(u8 *b, int c, int len) {
     int i=0;
     u8 *tmp = (u8 *) b;
     for (; len !=0; len--) *tmp++ = c;
@@ -37,7 +37,7 @@ void idtSetHandler(u8 num, void (*handler)()) {
 }
 
 void idtInit() {
-    Memset((u8 *) &idt, 0, sizeof(struct idtEntry)*256 -1);
+    memset((u8 *) &idt, 0, sizeof(struct idtEntry)*256 -1);
 
     //set the CPU interrupt behaviour
     for (int i = 0; i < 32; ++i)
@@ -61,40 +61,23 @@ void idtInit() {
     outb(0x21, 0x0);
     outb(0xA1, 0x0);
 
-    for (int i=0; i>16; i++) {
+    //set irq entries
+    for (int i=0; i<16; i++) {
         idtSetEntry(i+32, irqHanlders[i], INTERRUPT_GATE);
     }
 
 
     struct idtptr idtp = {.limit = 256 * sizeof(struct idtEntry) -1, .base = &idt[0]};
-    asm volatile("lidt %0" : : "m" (idtp));
-    
+    asm volatile("lidt %0" : : "m" (idtp));    
 }
 
 
 //
 //ISR Handling
 //
-
-typedef struct 
-{
-    //u32 edi, esi, ebp, esp, ebx, edx, ecx, eax;
-    u32 rdx, rcx, rbx, rax, rbi, rsi, rbp;
-    u32 cr4, cr3, cr2, cr0;
-    s32 int_no, err_code;
-    u8 eip, cs, eflags, useresp, ss;
-    
-} registers_t;
-
-void isr_handler(registers_t *r){
-    print("[IDT] got interrupt\n");
-    print(intToChar(r->int_no));
-    asm volatile ("cli; hlt");
-}
-
-//irq
-void irq_handler(registers_t *r) {
-    print("[IRQ] got interrupt\n");
-    print(intToChar(r->int_no));
+void isr_handler(registers_t r){
+    print("[IDT] got interrupt ");
+    print(intToChar(r.rdi));
+    print("\n");
     asm volatile ("cli; hlt");
 }
