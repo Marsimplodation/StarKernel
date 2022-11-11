@@ -20,4 +20,4 @@ run: clean
 	qemu-system-x86_64 -cdrom os.iso -s
 
 clean:
-	rm -rf objFiles/ kernel.bin os.iso
+	rm -rf objFiles/ isofiles/boot/kernel.bin os.iso
