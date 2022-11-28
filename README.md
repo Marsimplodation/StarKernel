@@ -10,8 +10,15 @@ Features so far: <br>
     > Working IDT <br>
     > Working PIT and IRQ <br>
     > Simple Timer <br>
-Next to do: <br>
     > Keyboard Interrupts <br>
+    > Simple shell <br>
+
+Next to do: <br>
+    > bug fixing <br>
+
+### Shell <br>
+`echo {word}` prints the word <br>
+`clear` clears the screen <br>
 
 ### HOW TO RUN <br>
 Requirements: <br>

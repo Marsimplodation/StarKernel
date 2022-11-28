@@ -9,6 +9,7 @@
 
 typedef unsigned short u16;
 
+void deleteChar();
 void clearScreen ();
 void loadBuffer ();
 void print (char * word);

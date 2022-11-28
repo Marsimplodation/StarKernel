@@ -7,4 +7,8 @@ typedef unsigned int u32;
 typedef unsigned long u64;
 typedef int s32;
 
+typedef int bool;
+#define false 0
+#define true 1
+
 #endif  //!__TYPES__H__

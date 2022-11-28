@@ -13,6 +13,8 @@ run: clean
 	clang -c -O0 -g kernel/CPU/irq.c -o objFiles/irq.o
 	clang -c -O0 -g kernel/CPU/time.c -o objFiles/time.o
 	clang -c -O0 -g kernel/utils/common.c -o objFiles/common.o
+	clang -c -O0 -g kernel/StarLang/shell.c -o objFiles/shell.o
+	clang -c -O0 -g kernel/Keyboard/keyboard.c -o objFiles/Keyboard.o
 	ld --nmagic --output=isofiles/boot/kernel.bin --script=linker.ld objFiles/*.o
 
 	#create iso and boot it

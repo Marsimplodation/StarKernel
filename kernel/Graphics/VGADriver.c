@@ -23,7 +23,6 @@ void clearScreen() {
     }
 }
 
-
 void loadBuffer() {
     for (int i = 0; i < ROWS * COLS; i++) {
         //set every bit in the memory like in the buffer
@@ -34,6 +33,12 @@ void loadBuffer() {
             buffer[i-COLS] = buffer[i];
         }
     }
+}
+
+void deleteChar() {
+  u16 ch = char2short(' ', printColor);
+  memory[--VGApos] = ch;
+  buffer[VGApos] = ch;
 }
 
 
@@ -61,7 +66,7 @@ void print (char * word) {
         //set char in buffer and in the vga memory
         else {memory[(VGApos++)] = ch;}
         if(VGApos > COLS) {
-            buffer[VGApos-COLS] = ch;
+            buffer[VGApos-(COLS + 1)] = ch;
         }
     }
 }
