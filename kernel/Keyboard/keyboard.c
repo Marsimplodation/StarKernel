@@ -1,7 +1,8 @@
 #include "keyboard.h"
 #include "../utils/types.h"
 #include "../StarLang/shell.h"
-#include "../CPU/idt.h"
+#include "../CPU/irq.h"
+#include "../utils/common.h"
 #include "../Graphics/VGADriver.h"
 
 char * cmd;
@@ -42,6 +43,7 @@ void keyboardGerman() {
         break;
     case 0x1c:
         print("\n");
+        cmd[pos++] = 0x0;
         handleCommand(cmd);
         pos = 0;
         for(int i = 0; i<10; i++) {

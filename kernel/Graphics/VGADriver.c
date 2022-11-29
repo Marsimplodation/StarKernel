@@ -19,26 +19,40 @@ void clearScreen() {
     //init every bit as ' '
     for (int i = 0; i < ROWS * COLS; i++) {
         memory[i] = 0x20;
-        buffer[i] = 0x20;
+        //buffer[i] = 0x20;
     }
 }
 
 void loadBuffer() {
-    for (int i = 0; i < ROWS * COLS; i++) {
+    /*for (int i = 0; i < ROWS - 1; i++) {
         //set every bit in the memory like in the buffer
-        memory[i] = buffer[i];
+        //memory[i] = buffer[i];
 
         //move every line one below in the buffer
-        if(i > COLS) {
-            buffer[i-COLS] = buffer[i];
+        if(i > COLS && i < (ROWS-2) * COLS) {
+            memory[i - (COLS - 1)] = memory[i];
+            //buffer[i-COLS] = buffer[i];
+        } else if (i >= (ROWS-2)* COLS) {
+            memory[i] = 0x20;    
         }
+    }*/
+  int pos = 80;
+  for (int r = 0; r < ROWS - 1; r++) {
+    for(int c = 0; c <= COLS; c++) {
+      memory[pos - COLS] = memory[pos];
+      pos++;
     }
+  }
+  for (int i = 0; i <= COLS; i++) {
+    memory[pos - COLS] = 0x20;
+    pos++;
+  }
 }
 
 void deleteChar() {
   u16 ch = char2short(' ', printColor);
   memory[--VGApos] = ch;
-  buffer[VGApos] = ch;
+  //buffer[VGApos] = ch;
 }
 
 
@@ -59,14 +73,15 @@ void print (char * word) {
             if(VGApos + (COLS - (VGApos % COLS)) <COLS * ROWS) {
                 VGApos += (COLS - (VGApos % COLS));
             } else {
-                VGApos -= (COLS);
+                VGApos -= (VGApos %  COLS);
+                //clearScreen();
                 loadBuffer();
             }
         }
         //set char in buffer and in the vga memory
         else {memory[(VGApos++)] = ch;}
         if(VGApos > COLS) {
-            buffer[VGApos-(COLS + 1)] = ch;
+            //buffer[VGApos-(COLS + 1)] = ch;
         }
     }
 }

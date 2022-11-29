@@ -14,11 +14,18 @@ Features so far: <br>
     > Simple shell <br>
 
 Next to do: <br>
-    > bug fixing <br>
+    > a simple file system <br>
+    > more shell functions <br>
+    > simple scripting language <br>
+    this could take a while
 
 ### Shell <br>
 `echo {word}` prints the word <br>
 `clear` clears the screen <br>
+
+not to stay: <br>
+`test` prints "lol" <br>
+`set` sets test to print hello and then call it self <br>
 
 ### HOW TO RUN <br>
 Requirements: <br>

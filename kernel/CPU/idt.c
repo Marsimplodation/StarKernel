@@ -8,7 +8,7 @@
 #define INTERRUPT_GATE 0x8E
 #define TRAP_GATE 0x8F
 
-void memset(u8 *b, int c, int len) {
+void memset8(u8 *b, int c, int len) {
     int i=0;
     u8 *tmp = (u8 *) b;
     for (; len !=0; len--) *tmp++ = c;
@@ -37,7 +37,7 @@ void idtSetHandler(u8 num, void (*handler)()) {
 }
 
 void idtInit() {
-    memset((u8 *) &idt, 0, sizeof(struct idtEntry)*256 -1);
+    memset8((u8 *) &idt, 0, sizeof(struct idtEntry)*256 -1);
 
     //set the CPU interrupt behaviour
     for (int i = 0; i < 32; ++i)

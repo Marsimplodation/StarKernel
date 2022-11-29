@@ -31,16 +31,38 @@ bool equals(char* a, char*b) {
 char * tmp;
 char * arg1;
 
-typedef struct function {
-    char * command;
-    struct function * next;
-} function;
+typedef struct file{
+  char * name;
+  char* content;
+}file;
 
-function test;
+typedef struct folder{
+  file * f;
+}folder;
 
-void execFunction(function * f) {
-    handleCommand(f->command);
-    execFunction(f->next);
+file fi={.name="test", .content="echo lol"};
+folder root = {&fi};
+
+void handleFile(file * fi) {
+  int i = 0;
+  int j = 0;
+  while(fi->content[i] != 0x0) {
+    if(fi->content[i] == '\n') {
+      tmp[j++] = 0x0;
+      handleCommand(tmp);
+      j=0;
+      i++;
+    } else {
+      tmp[j] = fi->content[i];
+      i++;
+      j++;
+    }
+  }
+  if(j!=0) {
+    tmp[j++] = 0x0;
+    handleCommand(tmp);
+    j=0;
+  }
 }
 
 void handleCommand(char * cmd) {
@@ -58,9 +80,12 @@ void handleCommand(char * cmd) {
         arg1[j++] = '\n';
         arg1[j++] = 0x0;
         print(arg1);
+    } else if(equals(tmp, "set")) {
+      root.f->content = "echo hello\ntest";
     } else if (equals(tmp, "clear")){
         clearScreen();
     } else {
-        print("Command '"); print(tmp); print("' not found\n");
+        if(equals(tmp, root.f->name)) {handleFile(root.f);}
+        else { print("Command '"); print(tmp); print("' not found\n"); }
     }
 }

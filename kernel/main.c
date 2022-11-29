@@ -46,11 +46,11 @@ void cstart() {
     changeColor(WHITE);
     print("Time passed: ");
     print(intToChar(ticks));
-    //printToDo();
+    printToDo();
     loadSystemResources();
     changeColor(WHITE); print("----------------------\nShell\n----------------------\n> ");
     
-    //preparing for keyboard stuff
+    //enabling interrupts
     asm volatile ("sti");
 
     //pause

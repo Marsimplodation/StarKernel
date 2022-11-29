@@ -1,6 +1,8 @@
 #include "dictionary.h"
 #include "../utils/types.h"
 
+char * charToReturn;
+
 char * intToChar(int x) {
     int buffer[20];
     int len = 0;
@@ -15,7 +17,7 @@ char * intToChar(int x) {
     if (x>=0) {
         buffer[len++] = x;
     }
-    char charToReturn[len + 2];
+    //char charToReturn[len + 2];
     int pos=len - 1;
     for (int i=0; i<len; i++) {
         switch (buffer[i]) {
@@ -50,7 +52,7 @@ char * longToChar(u64 x) {
     if (x>=0) {
         buffer[len++] = x;
     }
-    char charToReturn[len + 2];
+    //char charToReturn[len + 2];
     int pos=len - 1;
     for (int i=0; i<len; i++) {
         switch (buffer[i]) {
