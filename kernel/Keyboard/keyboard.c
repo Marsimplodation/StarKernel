@@ -22,6 +22,36 @@ void keyboardGerman() {
     key[0] = 0x0;
     key[1] = 0x0;
     switch (c) {
+    case 0x02:
+      key[0] ='1';
+      break;
+    case 0x03:
+      key[0] ='2';
+      break;
+    case 0x04:
+      key[0] ='3';
+      break;
+    case 0x05:
+      key[0] ='4';
+      break;
+    case 0x06:
+      key[0] ='5';
+      break;
+    case 0x07:
+      key[0] ='6';
+      break;
+    case 0x08:
+      key[0] ='7';
+      break;
+    case 0x09:
+      key[0] ='8';
+      break;
+    case 0x0A:
+      key[0] ='9';
+      break;
+    case 0x0B:
+      key[0] ='0';
+      break;
     case 0x39:
       key[0] =' ';
       break;

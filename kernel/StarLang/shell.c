@@ -1,7 +1,13 @@
 #include "shell.h"
 #include "../utils/types.h"
+#include "../utils/common.h"
 #include "../Graphics/VGADriver.h"
 #include "../CPU/time.h"
+#include "../filesystem/filesystem.h"
+
+
+char * tmp;
+char * arg1;
 
 bool strIn(char* a, char*b) {
     int i = 0;
@@ -14,36 +20,37 @@ bool strIn(char* a, char*b) {
     return true;
 }
 
-bool equals(char* a, char*b) {
-    int i = 0;
-    while(a[i] != 0x0) {
-        if(a[i] != b[i]) {
-            return false;
-        }
-        i++;
-    }
-    if(b[i] != 0x0) {
-        return false;
-    }
-    return true;
+bool hijackInput = false;
+void (*castInputTo)(char *);
+file * fileToWrite = 0x0;
+
+void writeToFile(char * cmd) {
+  
+  if(equals(cmd, "exit")) {
+    clearScreen();
+    print(fileToWrite->content);
+    print("\n");
+    fileToWrite = 0x0;
+    hijackInput = false;
+    print("exit writing file\n");
+    return;
+  }
+  int currentPos = stringSize(fileToWrite->content);
+  
+  for (int i = 0; i<stringSize(cmd);i++) {
+    fileToWrite->content[currentPos++] = cmd[i];
+  }
+  fileToWrite->content[currentPos++] = '\n';
+  fileToWrite->content[currentPos++] = 0x0;
+
+  clearScreen();
+  print(fileToWrite->content);
+  print("\n");
+  cmd = 0x0;
 }
 
-char * tmp;
-char * arg1;
 
-typedef struct file{
-  char * name;
-  char* content;
-}file;
-
-typedef struct folder{
-  file * f;
-}folder;
-
-file fi={.name="test", .content="echo lol"};
-folder root = {&fi};
-
-void handleFile(file * fi) {
+void executeFile(file * fi) {
   int i = 0;
   int j = 0;
   while(fi->content[i] != 0x0) {
@@ -66,6 +73,9 @@ void handleFile(file * fi) {
 }
 
 void handleCommand(char * cmd) {
+  if(hijackInput) {
+    castInputTo(cmd);
+  } else {
     int i = 0;
     while(cmd[i] != ' ' && cmd[i] != 0x0) {
         tmp[i] = cmd[i];
@@ -74,18 +84,71 @@ void handleCommand(char * cmd) {
     tmp[i++] = 0x0;
     if(equals(tmp, "echo")) {
         int j = 0;
-        while(cmd[i] != ' ' && cmd[i] != 0x0) {
+        //read the rest of the line
+        while(cmd[i] != 0x0) {
             arg1[j++] = cmd[i++];
         }
         arg1[j++] = '\n';
         arg1[j++] = 0x0;
         print(arg1);
-    } else if(equals(tmp, "set")) {
-      root.f->content = "echo hello\ntest";
+    }
+    else if(equals(tmp, "write")) {
+      int j = 0;
+        //read the rest of the line
+        while(cmd[i] != 0x0) {
+            arg1[j++] = cmd[i++];
+        }
+        arg1[j++] = 0x0;
+        fileToWrite = searchFile(arg1);
+        if(fileToWrite == 0x0) {
+          print("No file named: ");
+          print(arg1);
+          print("\n");
+          return;}
+        clearScreen();
+        print(fileToWrite->content);
+        print("\n");
+        castInputTo = &writeToFile;
+        hijackInput = true;
+    }
+
+    else if(equals(tmp, "cat")) {
+      int j = 0;
+        //read the rest of the line
+        while(cmd[i] != 0x0) {
+            arg1[j++] = cmd[i++];
+        }
+        arg1[j++] = 0x0;
+        fileToWrite = searchFile(arg1);
+        if(fileToWrite == 0x0) {
+          print("No file named: ");
+          print(arg1);
+          print("\n");
+          return;}
+        print(fileToWrite->content);
+        print("\n");
+    }
+
+    else if(equals(tmp, "sleep")) {
+        int j = 0;
+        //read the rest of the line
+        while(cmd[i] != 0x0) {
+            arg1[j++] = cmd[i++];
+        }
+        arg1[j++] = '\n';
+        arg1[j++] = 0x0;
+        asm volatile ("sti");
+        sleep(CharToInt(arg1), MILLISECONDS);
     } else if (equals(tmp, "clear")){
         clearScreen();
+    }else if (equals(tmp, "ls")){
+        listFiles();
     } else {
-        if(equals(tmp, root.f->name)) {handleFile(root.f);}
+        file * f = searchFile(tmp);
+        //file * f = 0x0;
+        if(f != 0x0) {executeFile(f);}
         else { print("Command '"); print(tmp); print("' not found\n"); }
     }
+  }
+  cmd = 0x0;
 }

@@ -7,5 +7,6 @@ typedef enum {WHITE=0x0F, RED=0X0C, GREEN=0x02, YELLOW=0x0E} colors;
 char getAsciVal(char pchar); 
 char * intToChar(int x);
 char * longToChar(u64 x);
+int CharToInt(char * in);
 
 #endif  //!__DICTIONARY__H__

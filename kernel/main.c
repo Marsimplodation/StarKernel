@@ -5,23 +5,10 @@
 #include "CPU/time.h"
 #include "utils/types.h"
 #include "Keyboard/keyboard.h"
+#include "filesystem/filesystem.h"
 
 u32 ticks = 0;
 
-void printToDo() {
-    changeColor(WHITE);
-    print("to do:\n");
-    print("  VGA-Driver "); 
-    changeColor(GREEN); print("done\n"); 
-    changeColor(WHITE); print("  IDT");
-    changeColor(GREEN); print(" done\n");
-    changeColor(WHITE); print("  PIT & IRQ");
-    changeColor(GREEN); print(" done\n");
-    changeColor(WHITE); print("  Simple timer function");
-    changeColor(GREEN); print(" done\n");
-    changeColor(WHITE); print("  Keyboard input");
-    changeColor(GREEN); print(" done\n\n");
-}
 
 void loadSystemResources() {
     changeColor(WHITE); print("----------------------\nload system ressources\n----------------------\n");
@@ -29,7 +16,8 @@ void loadSystemResources() {
     idtInit();
     print("[+] loaded IDT\n"); 
     print("[-] loading timer\n");
-    init_timer(100); //init timer to 100hz
+    initTimer(100); //init timer to 100hz
+    asm volatile ("sti");
     print("[+] loaded timer at 100Hz\n");
     print("[-] loading keyboard\n");
     initKeyboard(); //init timer to 100hz
@@ -44,23 +32,12 @@ void cstart() {
     changeColor(RED);
     print("Welcome to the StarKernel\n");
     changeColor(WHITE);
-    print("Time passed: ");
-    print(intToChar(ticks));
-    printToDo();
     loadSystemResources();
+    print("\n");
+    createFile("loop", "echo loop\nsleep 16\nloop\n");
+    createFile("test", "echo test\n");
     changeColor(WHITE); print("----------------------\nShell\n----------------------\n> ");
-    
-    //enabling interrupts
-    asm volatile ("sti");
-
-    //pause
-    sleep(25, MILLISECONDS);
-    
-    //just count time up
     for(;;) {
-        sleep(16, MILLISECONDS);
-        //cursor();
-        //print("x");
     }
 }
 

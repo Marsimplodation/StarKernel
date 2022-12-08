@@ -3,6 +3,27 @@
 
 char * charToReturn;
 
+int CharToInt(char * in) {
+    int i = 0;
+    int ret = 0;
+    while(in[i] != 0x0) {
+        switch(in[i]) {
+            case '1': ret=ret*10 +1; break;
+            case '2': ret=ret*10 +2; break;
+            case '3': ret=ret*10 +3; break;
+            case '4': ret=ret*10 +4; break;
+            case '5': ret=ret*10 +5; break;
+            case '6': ret=ret*10 +6; break;
+            case '7': ret=ret*10 +7; break;
+            case '8': ret=ret*10 +8; break;
+            case '9': ret=ret*10 +9; break;
+            case '0': ret=ret*10 +0; break;
+        }
+        i++;
+    }
+    return ret;
+}
+
 char * intToChar(int x) {
     int buffer[20];
     int len = 0;

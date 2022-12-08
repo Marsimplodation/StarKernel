@@ -4,6 +4,8 @@
 void outb(u16 port, u8 value);
 u8 inb(u16 port);
 u16 inw(u16 port);
+bool equals(char* a, char*b);
+int stringSize(char * a);
 
 typedef struct 
 {

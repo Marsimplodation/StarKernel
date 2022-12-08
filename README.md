@@ -12,20 +12,28 @@ Features so far: <br>
     > Simple Timer <br>
     > Keyboard Interrupts <br>
     > Simple shell <br>
+    > a simple file system, it's crap, but don't judge me <br>
 
 Next to do: <br>
-    > a simple file system <br>
     > more shell functions <br>
-    > simple scripting language <br>
-    this could take a while
 
 ### Shell <br>
 `echo {word}` prints the word <br>
 `clear` clears the screen <br>
+`sleep {time}` sleeps time in ms <br>
+`ls` list files <br>
+`write {file}` write to the file<br>
+`cat {file}` show content of file <br>
 
-not to stay: <br>
-`test` prints "lol" <br>
-`set` sets test to print hello and then call it self <br>
+### Edit files <br>
+open `write` <br>
+type in what you want <br>
+exit with `exit` <br>
+
+### Files <br>
+note: Files are limited to 100 charactes content <br>
+`test` prints "test" <br>
+`loop` prints "loop", waits 16ms, jumps back <br>
 
 ### HOW TO RUN <br>
 Requirements: <br>
