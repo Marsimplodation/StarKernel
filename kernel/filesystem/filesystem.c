@@ -9,11 +9,11 @@
 
 //this is really not how it's supposed to be done
 u64 currentMem;
-u64 * placement_address = &currentMem;
-u64 kmalloc(u64 sz)
+u64 * placementAddress = &currentMem;
+u64 kmalloc(u64 size)
 {
-  u64 tmp = (u64) placement_address;
-  placement_address += sz;
+  u64 tmp = (u64) placementAddress;
+  placementAddress += size;
   return tmp;
 }
 
