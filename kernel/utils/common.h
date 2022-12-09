@@ -6,6 +6,8 @@ u8 inb(u16 port);
 u16 inw(u16 port);
 bool equals(char* a, char*b);
 int stringSize(char * a);
+void strcopy(char * a, char *b);
+u64 kmalloc(u64 size);
 
 typedef struct 
 {

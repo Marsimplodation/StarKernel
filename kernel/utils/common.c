@@ -36,3 +36,17 @@ int stringSize(char * a) {
     while(a[ret] != 0x0) {ret++;}
     return ret;
 }
+
+void strcopy(char * a, char *b) {
+    int i = 0;
+    while(b[i] != 0x0) {a[i] = b[i]; i++;}
+}
+
+extern u64 p5_table;
+//u64 currentMem;
+u64 * placementAddress = &p5_table;
+u64 kmalloc(u64 size) {
+  u64 tmp = (u64) placementAddress;
+  placementAddress += size;
+  return tmp;
+}

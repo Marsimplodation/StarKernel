@@ -68,6 +68,9 @@ p3_table:
     resb 4096
 p2_table:
     resb 4096
+[GLOBAL p5_table]
+p5_table:
+    resb 4096
 
 ; Access bits
 PRESENT        equ 1 << 7

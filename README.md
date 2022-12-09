@@ -24,6 +24,7 @@ Next to do: <br>
 `ls` list files <br>
 `write {file}` write to the file<br>
 `cat {file}` show content of file <br>
+`touch {file}` create file <br>
 
 ### Edit files <br>
 open `write` <br>

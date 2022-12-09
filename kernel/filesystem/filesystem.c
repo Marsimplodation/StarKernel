@@ -8,15 +8,6 @@
 
 
 //this is really not how it's supposed to be done
-u64 currentMem;
-u64 * placementAddress = &currentMem;
-u64 kmalloc(u64 size)
-{
-  u64 tmp = (u64) placementAddress;
-  placementAddress += size;
-  return tmp;
-}
-
 file * root = 0x0;
 
 //a list is not really the most efficient, but should work
@@ -26,8 +17,8 @@ void createFile(char * name, char * content) {
         root = (file *)kmalloc(sizeof(file));
         root->content = (char *) kmalloc(sizeof(char) * 100);
         root->next = (file *) kmalloc(sizeof(file));
-        //root->name = kmalloc(sizeof(char) * 50);
-        root->name = name;
+        root->name = (char *) kmalloc(stringSize(name));
+        strcopy(root->name, name);
         root->content = content;
         root->next = 0x0;
     }else {
@@ -37,7 +28,8 @@ void createFile(char * name, char * content) {
         }
         node->next = (file *)kmalloc(sizeof(file));
         node->next->content = (char *)kmalloc(sizeof(char) * 100);
-        node->next->name = name;
+        node->next->name = (char *)kmalloc(stringSize(name));
+        strcopy(node->next->name, name);
         node->next->content = content;
         node->next->next = 0x0;
     }
@@ -64,3 +56,8 @@ void listFiles() {
         node = node->next;
     }
 }
+
+struct line {
+    int start;
+    int end;
+};
