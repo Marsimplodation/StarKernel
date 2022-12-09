@@ -26,6 +26,9 @@ Next to do: <br>
 `cat {file}` show content of file <br>
 `touch {file}` create file <br>
 
+### BUGS <br>
+creating a file and editing it, somehow breaks sleep and clear <br>
+
 ### Edit files <br>
 open `write` <br>
 type in what you want <br>

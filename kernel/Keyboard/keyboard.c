@@ -5,15 +5,22 @@
 #include "../utils/common.h"
 #include "../Graphics/VGADriver.h"
 
-char * cmd;
+char * cmd; 
 int pos = 0;
 
 void initKeyboard() {
+    cmd = (char*) kmalloc(sizeof(char) * 80); // since there are only 80 chars
     outb(0xa1, 0xff);
     for (int i = 0; i<10; i++) {
         cmd[i] = 0x0;
     }
     register_interrupt_handler(1, &keyboardGerman);
+}
+
+void clearCommand() {
+    for(int i = 0; i<pos; i++) {
+        cmd[i] = 0x0;
+    }
 }
 
 void keyboardGerman() {
@@ -76,9 +83,7 @@ void keyboardGerman() {
         cmd[pos++] = 0x0;
         handleCommand(cmd);
         pos = 0;
-        for(int i = 0; i<10; i++) {
-            cmd[i] = 0x0;
-        }
+        clearCommand();
         print("> ");
         break;
     case 0x10:
@@ -155,6 +160,9 @@ void keyboardGerman() {
     
     }
     if(key[0] != 0x0) {
+         if(pos >= 79) {
+            return;
+        }
         print(key);
         cmd[pos++]=key[0];
     }

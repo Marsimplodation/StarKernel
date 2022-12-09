@@ -162,5 +162,4 @@ void handleCommand(char * cmd) {
       if(f != 0x0) {executeFile(f);}
       else { print("Command '"); print(tmp); print("' not found\n"); }
   }
-  cmd = 0x0;
 }
