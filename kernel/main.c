@@ -6,6 +6,7 @@
 #include "utils/types.h"
 #include "Keyboard/keyboard.h"
 #include "filesystem/filesystem.h"
+#include "StarLang/commands.h"
 
 u32 ticks = 0;
 
@@ -34,10 +35,14 @@ void cstart() {
     changeColor(WHITE);
     loadSystemResources();
     print("\n");
-    createFile("loop", "echo loop\nsleep 16\nloop\n");
-    createFile("test", "echo test\n");
+    createFile("test1", "echo test");
+    createFile("test2", "echo test");
+    createFile("test3", "echo test");
+    createFile("test4", "echo test");
+    initCommands();
     changeColor(WHITE); print("----------------------\nShell\n----------------------\n> ");
     for(;;) {
+        
     }
 }
 

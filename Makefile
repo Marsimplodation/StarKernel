@@ -14,6 +14,8 @@ run: clean
 	clang -c -O0 -g kernel/CPU/time.c -o objFiles/time.o
 	clang -c -O0 -g kernel/utils/common.c -o objFiles/common.o
 	clang -c -O0 -g kernel/StarLang/shell.c -o objFiles/shell.o
+	clang -c -O0 -g kernel/StarLang/commands.c -o objFiles/commands.o
+	clang -c -O0 -g kernel/StarLang/filehandling.c -o objFiles/filehandling.o
 	clang -c -O0 -g kernel/Keyboard/keyboard.c -o objFiles/Keyboard.o
 	clang -c -O0 -g kernel/filesystem/filesystem.c -o objFiles/filesystem.o
 	ld --nmagic --output=isofiles/boot/kernel.bin --script=linker.ld objFiles/*.o

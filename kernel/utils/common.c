@@ -1,5 +1,6 @@
 #include "common.h"
 #include "types.h"
+#include "../Graphics/VGADriver.h"
 
 void outb(u16 port, u8 value) {
     asm volatile ("outb %1, %0" : : "dN"(port), "a" (value));
@@ -48,5 +49,8 @@ u64 * placementAddress = &p5_table;
 u64 kmalloc(u64 size) {
   u64 tmp = (u64) placementAddress;
   placementAddress += size;
+  if(placementAddress - &p5_table >= 4096) {
+    print("all memory on page 5 used up\n");
+  }
   return tmp;
 }

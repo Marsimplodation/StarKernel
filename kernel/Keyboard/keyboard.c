@@ -18,7 +18,7 @@ void initKeyboard() {
 }
 
 void clearCommand() {
-    for(int i = 0; i<pos; i++) {
+    for(int i = 0; i<80; i++) {
         cmd[i] = 0x0;
     }
 }
