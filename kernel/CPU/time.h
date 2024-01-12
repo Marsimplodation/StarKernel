@@ -2,6 +2,6 @@
 #define __TIME__H__
 #include "../utils/types.h"
 typedef enum {SECONDS=100, MILLISECONDS=1} Time;
-void initTimer();
+void initTimer(u32 freq);
 void sleep(u32 time, Time timeType);
 #endif  //!__TIME__H__
